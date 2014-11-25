@@ -15,6 +15,10 @@
 		CAAA7D271A22F0A600E200BB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAAA7D261A22F0A600E200BB /* Images.xcassets */; };
 		CAAA7D2A1A22F0A600E200BB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAAA7D281A22F0A600E200BB /* LaunchScreen.xib */; };
 		CAAA7D361A22F0A600E200BB /* BowmanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D351A22F0A600E200BB /* BowmanTests.swift */; };
+		CAAA7D401A22F10300E200BB /* PlayerSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D3F1A22F10300E200BB /* PlayerSprite.swift */; };
+		CAAA7D421A22F14300E200BB /* WallSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D411A22F14300E200BB /* WallSprite.swift */; };
+		CAAA7D441A23D9B400E200BB /* sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = CAAA7D431A23D9B400E200BB /* sprites.atlas */; };
+		CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D451A23DA7400E200BB /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,10 @@
 		CAAA7D2F1A22F0A600E200BB /* BowmanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BowmanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAAA7D341A22F0A600E200BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAAA7D351A22F0A600E200BB /* BowmanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BowmanTests.swift; sourceTree = "<group>"; };
+		CAAA7D3F1A22F10300E200BB /* PlayerSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSprite.swift; sourceTree = "<group>"; };
+		CAAA7D411A22F14300E200BB /* WallSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallSprite.swift; sourceTree = "<group>"; };
+		CAAA7D431A23D9B400E200BB /* sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sprites.atlas; sourceTree = "<group>"; };
+		CAAA7D451A23DA7400E200BB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,9 +89,12 @@
 		CAAA7D181A22F0A600E200BB /* Bowman */ = {
 			isa = PBXGroup;
 			children = (
+				CAAA7D451A23DA7400E200BB /* Constants.swift */,
 				CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */,
 				CAAA7D1D1A22F0A600E200BB /* GameScene.sks */,
 				CAAA7D1F1A22F0A600E200BB /* GameScene.swift */,
+				CAAA7D3F1A22F10300E200BB /* PlayerSprite.swift */,
+				CAAA7D411A22F14300E200BB /* WallSprite.swift */,
 				CAAA7D211A22F0A600E200BB /* GameViewController.swift */,
 				CAAA7D231A22F0A600E200BB /* Main.storyboard */,
 				CAAA7D261A22F0A600E200BB /* Images.xcassets */,
@@ -96,6 +107,7 @@
 		CAAA7D191A22F0A600E200BB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CAAA7D431A23D9B400E200BB /* sprites.atlas */,
 				CAAA7D1A1A22F0A600E200BB /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -198,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAAA7D441A23D9B400E200BB /* sprites.atlas in Resources */,
 				CAAA7D2A1A22F0A600E200BB /* LaunchScreen.xib in Resources */,
 				CAAA7D271A22F0A600E200BB /* Images.xcassets in Resources */,
 				CAAA7D1E1A22F0A600E200BB /* GameScene.sks in Resources */,
@@ -220,8 +233,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAAA7D201A22F0A600E200BB /* GameScene.swift in Sources */,
+				CAAA7D421A22F14300E200BB /* WallSprite.swift in Sources */,
+				CAAA7D401A22F10300E200BB /* PlayerSprite.swift in Sources */,
 				CAAA7D221A22F0A600E200BB /* GameViewController.swift in Sources */,
 				CAAA7D1C1A22F0A600E200BB /* AppDelegate.swift in Sources */,
+				CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +429,7 @@
 				CAAA7D3B1A22F0A600E200BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CAAA7D3C1A22F0A600E200BB /* Build configuration list for PBXNativeTarget "BowmanTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +438,7 @@
 				CAAA7D3E1A22F0A600E200BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
