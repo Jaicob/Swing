@@ -18,7 +18,6 @@ class PlayerSprite: SKSpriteNode {
     super.init()
     color = SKColor.redColor()
     size = CGSizeMake(70, 150)
-
     physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
     physicsBody?.dynamic = true
     physicsBody?.affectedByGravity = true
@@ -27,5 +26,4 @@ class PlayerSprite: SKSpriteNode {
   required convenience init?(coder aDecoder: NSCoder) {
     self.init()
   }
-
 }

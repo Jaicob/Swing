@@ -8,105 +8,58 @@
 
 import SpriteKit
 
-func + (left: CGPoint, right: CGPoint) -> CGPoint {
-  return CGPoint(x: left.x + right.x, y: left.y + right.y)
-}
-
-func - (left: CGPoint, right: CGPoint) -> CGPoint {
-  return CGPoint(x: left.x - right.x, y: left.y - right.y)
-}
-
-func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
-  return CGPoint(x: point.x * scalar, y: point.y * scalar)
-}
-
-func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
-  return CGPoint(x: point.x / scalar, y: point.y / scalar)
-}
-
-#if !(arch(x86_64) || arch(arm64))
-  func sqrt(a: CGFloat) -> CGFloat {
-  return CGFloat(sqrtf(Float(a)))
-  }
-#endif
-
-extension CGPoint {
-  func length() -> CGFloat {
-    return sqrt(x*x + y*y)
-  }
-  
-  func normalized() -> CGPoint {
-    return self / length()
-  }
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
   var player = PlayerSprite()
   let moveCeiling = SKAction.moveBy(CGVectorMake(-5, 0), duration: 0)
   
   override func didMoveToView(view: SKView) {
     player.position = CGPointMake(self.size.width * 0.1, self.size.height * 0.3)
-    physicsWorld.gravity = CGVectorMake(0, -1.3)
-    physicsWorld.contactDelegate = self
+    setupPhysicsWorld()
     
-    var ceiling = self.childNodeWithName("ceiling") as SKSpriteNode
-    ceiling.physicsBody?.categoryBitMask = Category.Ceiling
-    ceiling.physicsBody?.contactTestBitMask = Category.Projectile
-    ceiling.physicsBody?.collisionBitMask = Category.None
-    
-    ceiling = self.childNodeWithName("ceilingTwo") as SKSpriteNode
-    ceiling.physicsBody?.categoryBitMask = Category.Ceiling
-    ceiling.physicsBody?.contactTestBitMask = Category.Projectile
-    ceiling.physicsBody?.collisionBitMask = Category.None
-    
-    var blueBox = SKSpriteNode(color: SKColor.blueColor(), size: CGSizeMake(70, 150))
-    blueBox.position = CGPointMake(player.position.x*2 + player.size.width, player.position.y)
-    blueBox.physicsBody = SKPhysicsBody(rectangleOfSize: blueBox.size)
-    blueBox.physicsBody?.affectedByGravity = false
-    blueBox.physicsBody?.dynamic = true
-    blueBox.name = "blueBox"
+    let ceilingOne = Ceiling(location: CGPointMake(1572,700))
+    let ceilingTwo = Ceiling(location: CGPointMake(2664,700))
     
     self.addChild(player)
+    self.addChild(ceilingOne)
+    self.addChild(ceilingTwo)
+  }
+  
+  func setupPhysicsWorld() {
+    physicsWorld.gravity = CGVectorMake(0, -1.3)
+    physicsWorld.contactDelegate = self
   }
   
   override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-
-    if self.childNodeWithName("projectile") != nil {
-      self.childNodeWithName("projectile")?.removeFromParent()
-    }
+    removeOldProjectile()
     
-    //Choose one of the touches to work with
     let touch = touches.anyObject() as UITouch
     let touchLocation = touch.locationInNode(self)
     
-    let scaleBoc = SKAction.scaleXBy(5, y: 1, duration: 2)
-    let repeatScale = SKAction.repeatActionForever(scaleBoc)
-    
-    //Set up initial location of projectile
-    let projectile = SKSpriteNode(color: SKColor.blackColor(), size: CGSizeMake(20, 20))
+    let projectile = Projectile()
     projectile.position = player.position
-    projectile.name = "projectile"
-    projectile.physicsBody = SKPhysicsBody(rectangleOfSize: projectile.size)
-    projectile.physicsBody?.affectedByGravity = false
-    projectile.physicsBody?.dynamic = true
-    projectile.physicsBody?.categoryBitMask = Category.Projectile
-    projectile.physicsBody?.contactTestBitMask = Category.Ceiling
-    projectile.physicsBody?.collisionBitMask = Category.None
-    projectile.physicsBody?.usesPreciseCollisionDetection = true
     
-    let offset = touchLocation - projectile.position
-  //  if (offset.x < 0) { return }
+    let launchVector = calculateLaunchVectorUsing(touchLocation, projectile: projectile)
+    projectile.physicsBody?.applyImpulse(launchVector)
+  }
+  
+  func removeOldProjectile() {
+    if self.childNodeWithName("projectile") != nil {
+      self.childNodeWithName("projectile")?.removeFromParent()
+    }
+  }
+  
+  func calculateLaunchVectorUsing(location : CGPoint, projectile : SKSpriteNode) -> CGVector{
+    let offset = location - projectile.position
+    //if (offset.x < 0) { return CGVectorMake(0, 0)}//disables backwards shooting
     addChild(projectile)
     let direction = offset.normalized()
     let shootAmount = direction * 20
     let launchVector = CGVectorMake(shootAmount.x , shootAmount.y)
-    projectile.physicsBody?.applyImpulse(launchVector)
+    return launchVector
   }
   
-  
   func didBeginContact(contact: SKPhysicsContact) {
-    
-    
+    print("HIT")
     var firstBody: SKPhysicsBody
     var secondBody: SKPhysicsBody
     if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
@@ -124,23 +77,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func projectileDidCollideWithCeiling(ceiling:SKSpriteNode, projectile:SKSpriteNode) {
-    
-    println("Hit")
     projectile.physicsBody?.velocity = CGVectorMake(0, 0)
-    
-    var newJoint = SKPhysicsJointFixed.jointWithBodyA(self.player.physicsBody, bodyB: projectile.physicsBody, anchor: CGPointMake(self.player.position.x + self.player.size.width / 2 , self.player.position.y))
-    
-    self.physicsWorld.addJoint(newJoint)
-    projectile.physicsBody?.dynamic = true
-    projectile.physicsBody?.affectedByGravity = false
-    
+    joinPlayerWith(projectile)
+    createPendulumJointWith(projectile, ceiling: ceiling)
+    player.physicsBody?.applyImpulse(CGVectorMake(11, 0))
+    self.childNodeWithName("floor")?.removeFromParent()
+  }
+  
+  func createPendulumJointWith(projectile : SKSpriteNode, ceiling: SKSpriteNode) {
     let pendulumJoint = SKPhysicsJointPin.jointWithBodyA(ceiling.physicsBody, bodyB:projectile.physicsBody , anchor: projectile.position)
     self.physicsWorld.addJoint(pendulumJoint)
-    
-    let moveCeiling = SKAction.moveBy(CGVectorMake(ceiling.size.width * -2, 0), duration: 5)
-    player.physicsBody?.applyImpulse(CGVectorMake(11, 0))
-    
-    self.childNodeWithName("floor")?.removeFromParent()
+  }
+  
+  func joinPlayerWith(projectile : SKSpriteNode) {
+    var newJoint = SKPhysicsJointFixed.jointWithBodyA(self.player.physicsBody, bodyB: projectile.physicsBody, anchor: CGPointMake(self.player.position.x + self.player.size.width / 2 , self.player.position.y))
+    self.physicsWorld.addJoint(newJoint)
   }
   
   func moveTheCeilings() {
@@ -148,19 +99,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       if node.position.x <= -(node as SKSpriteNode).size.width {
         node.position = CGPointMake(node.position.x + (node as SKSpriteNode).size.width * 2, node.position.y)
       }
-       (node as SKSpriteNode).runAction(self.moveCeiling)
-    })
-    self.enumerateChildNodesWithName("ceilingTwo", usingBlock: { node, stop in
-      if node.position.x <= -(node as SKSpriteNode).size.width {
-        node.position = CGPointMake(node.position.x + (node as SKSpriteNode).size.width * 2, node.position.y)
-      }
       (node as SKSpriteNode).runAction(self.moveCeiling)
     })
-    
   }
   
   override func update(currentTime: CFTimeInterval) {
-    /* Called before each frame is rendered */
     self.moveTheCeilings()
   }
 }

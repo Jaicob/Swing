@@ -19,6 +19,8 @@
 		CAAA7D421A22F14300E200BB /* WallSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D411A22F14300E200BB /* WallSprite.swift */; };
 		CAAA7D441A23D9B400E200BB /* sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = CAAA7D431A23D9B400E200BB /* sprites.atlas */; };
 		CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D451A23DA7400E200BB /* Constants.swift */; };
+		CAAA7D481A245C5400E200BB /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D471A245C5400E200BB /* Projectile.swift */; };
+		CAAA7D4B1A245F8000E200BB /* Ceiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D4A1A245F8000E200BB /* Ceiling.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		CAAA7D411A22F14300E200BB /* WallSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallSprite.swift; sourceTree = "<group>"; };
 		CAAA7D431A23D9B400E200BB /* sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sprites.atlas; sourceTree = "<group>"; };
 		CAAA7D451A23DA7400E200BB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CAAA7D471A245C5400E200BB /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
+		CAAA7D4A1A245F8000E200BB /* Ceiling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ceiling.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,9 +97,8 @@
 				CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */,
 				CAAA7D1D1A22F0A600E200BB /* GameScene.sks */,
 				CAAA7D1F1A22F0A600E200BB /* GameScene.swift */,
-				CAAA7D3F1A22F10300E200BB /* PlayerSprite.swift */,
-				CAAA7D411A22F14300E200BB /* WallSprite.swift */,
 				CAAA7D211A22F0A600E200BB /* GameViewController.swift */,
+				CAAA7D491A245F5A00E200BB /* Sprites */,
 				CAAA7D231A22F0A600E200BB /* Main.storyboard */,
 				CAAA7D261A22F0A600E200BB /* Images.xcassets */,
 				CAAA7D281A22F0A600E200BB /* LaunchScreen.xib */,
@@ -128,6 +131,17 @@
 				CAAA7D341A22F0A600E200BB /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CAAA7D491A245F5A00E200BB /* Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				CAAA7D471A245C5400E200BB /* Projectile.swift */,
+				CAAA7D3F1A22F10300E200BB /* PlayerSprite.swift */,
+				CAAA7D411A22F14300E200BB /* WallSprite.swift */,
+				CAAA7D4A1A245F8000E200BB /* Ceiling.swift */,
+			);
+			name = Sprites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,7 +249,9 @@
 				CAAA7D201A22F0A600E200BB /* GameScene.swift in Sources */,
 				CAAA7D421A22F14300E200BB /* WallSprite.swift in Sources */,
 				CAAA7D401A22F10300E200BB /* PlayerSprite.swift in Sources */,
+				CAAA7D4B1A245F8000E200BB /* Ceiling.swift in Sources */,
 				CAAA7D221A22F0A600E200BB /* GameViewController.swift in Sources */,
+				CAAA7D481A245C5400E200BB /* Projectile.swift in Sources */,
 				CAAA7D1C1A22F0A600E200BB /* AppDelegate.swift in Sources */,
 				CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */,
 			);
