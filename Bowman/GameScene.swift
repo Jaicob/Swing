@@ -46,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   override func didMoveToView(view: SKView) {
     player.position = CGPointMake(self.size.width * 0.1, self.size.height * 0.3)
-    physicsWorld.gravity = CGVectorMake(0, -9.8)
+    physicsWorld.gravity = CGVectorMake(0, -1.3)
     physicsWorld.contactDelegate = self
     
     var ceiling = self.childNodeWithName("ceiling") as SKSpriteNode
@@ -71,7 +71,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
 
-    
+    if self.childNodeWithName("projectile") != nil {
+      self.childNodeWithName("projectile")?.removeFromParent()
+    }
     
     //Choose one of the touches to work with
     let touch = touches.anyObject() as UITouch
@@ -93,10 +95,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     projectile.physicsBody?.usesPreciseCollisionDetection = true
     
     let offset = touchLocation - projectile.position
-    if (offset.x < 0) { return }
+  //  if (offset.x < 0) { return }
     addChild(projectile)
     let direction = offset.normalized()
-    let shootAmount = direction * 10
+    let shootAmount = direction * 20
     let launchVector = CGVectorMake(shootAmount.x , shootAmount.y)
     projectile.physicsBody?.applyImpulse(launchVector)
   }
@@ -123,9 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   func projectileDidCollideWithCeiling(ceiling:SKSpriteNode, projectile:SKSpriteNode) {
     
-    //remove old projectile
-
-    
     println("Hit")
     projectile.physicsBody?.velocity = CGVectorMake(0, 0)
     
@@ -139,7 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     self.physicsWorld.addJoint(pendulumJoint)
     
     let moveCeiling = SKAction.moveBy(CGVectorMake(ceiling.size.width * -2, 0), duration: 5)
-
+    player.physicsBody?.applyImpulse(CGVectorMake(11, 0))
     
     self.childNodeWithName("floor")?.removeFromParent()
   }
