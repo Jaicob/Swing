@@ -9,6 +9,7 @@
 
 //TODO:Figure out a good way to seperate these files
 import Foundation
+import SpriteKit
 import UIKit
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
@@ -43,18 +44,36 @@ extension CGPoint {
   }
 }
 
-
 //Configurations
-struct Category {
-  static let None :       UInt32 = 0
-  static let All  :       UInt32 = UInt32.max
-  static let Ceiling :    UInt32 = 1
-  static let Projectile:  UInt32 = 2
-}
-
-
 struct Layer {
-  static let Background: CGFloat = 0
-  static let Rope: CGFloat = 1
-  static let Foreground: CGFloat = 3
+  static let Background:  CGFloat = 0
+  static let Rope:        CGFloat = 1
+  static let Foreground:  CGFloat = 3
 }
+
+struct Category {
+  static let None :           UInt32 = 0
+  static let Ceiling :        UInt32 = 1
+  static let Projectile:      UInt32 = 2
+  static let TargetPlatform:  UInt32 = 4
+  static let Player:          UInt32 = 8
+  static let All  :           UInt32 = UInt32.max
+}
+
+enum CollisionType: UInt32 {
+  case ProjectileAndCeiling
+  case PlayerAndPlatform
+  case None
+  
+  static let collisionMasks = [
+    ProjectileAndCeiling : Category.Projectile & Category.Ceiling,
+    PlayerAndPlatform    : Category.Player & Category.TargetPlatform
+  ]
+  
+  func mask() -> UInt32 {
+    return 1
+  }
+  
+
+}
+

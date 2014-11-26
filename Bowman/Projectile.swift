@@ -13,7 +13,7 @@ class Projectile: SKSpriteNode {
   override init() {
     super.init()
     color = SKColor.blackColor()
-    size = CGSizeMake(20, 20)
+    size = CGSizeMake(10, 10)
     name = "projectile"
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false

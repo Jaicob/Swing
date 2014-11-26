@@ -21,6 +21,7 @@
 		CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D451A23DA7400E200BB /* Constants.swift */; };
 		CAAA7D481A245C5400E200BB /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D471A245C5400E200BB /* Projectile.swift */; };
 		CAAA7D4B1A245F8000E200BB /* Ceiling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D4A1A245F8000E200BB /* Ceiling.swift */; };
+		CAAA7D4D1A2527CB00E200BB /* LedgeSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D4C1A2527CB00E200BB /* LedgeSprite.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		CAAA7D451A23DA7400E200BB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CAAA7D471A245C5400E200BB /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		CAAA7D4A1A245F8000E200BB /* Ceiling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ceiling.swift; sourceTree = "<group>"; };
+		CAAA7D4C1A2527CB00E200BB /* LedgeSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LedgeSprite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				CAAA7D3F1A22F10300E200BB /* PlayerSprite.swift */,
 				CAAA7D411A22F14300E200BB /* WallSprite.swift */,
 				CAAA7D4A1A245F8000E200BB /* Ceiling.swift */,
+				CAAA7D4C1A2527CB00E200BB /* LedgeSprite.swift */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				CAAA7D221A22F0A600E200BB /* GameViewController.swift in Sources */,
 				CAAA7D481A245C5400E200BB /* Projectile.swift in Sources */,
 				CAAA7D1C1A22F0A600E200BB /* AppDelegate.swift in Sources */,
+				CAAA7D4D1A2527CB00E200BB /* LedgeSprite.swift in Sources */,
 				CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

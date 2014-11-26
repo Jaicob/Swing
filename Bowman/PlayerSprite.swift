@@ -17,10 +17,18 @@ class PlayerSprite: SKSpriteNode {
   override init() {
     super.init()
     color = SKColor.redColor()
-    size = CGSizeMake(70, 150)
+    texture = SKTexture(imageNamed: "player")
+    size = CGSizeMake(30, 50)
     physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
     physicsBody?.dynamic = true
     physicsBody?.affectedByGravity = true
+    physicsBody?.allowsRotation = false 
+    physicsBody?.categoryBitMask = Category.Player
+    physicsBody?.restitution = 0
+    physicsBody?.mass = 0.05
+  //  physicsBody?.contactTestBitMask = Category.Player
+   // physicsBody?.collisionBitMask = Category.Player
+    physicsBody?.usesPreciseCollisionDetection = true
   }
   
   required convenience init?(coder aDecoder: NSCoder) {

@@ -1,26 +1,26 @@
 //
-//  WallSprite.swift
+//  LedgeSprite.swift
 //  Bowman
 //
-//  Created by Jaicob Stewart on 11/23/14.
+//  Created by Jaicob Stewart on 11/25/14.
 //  Copyright (c) 2014 Jaicob Stewart. All rights reserved.
 //
 
 import SpriteKit
 
-class WallSprite: SKSpriteNode {
-  
-  
+class LedgeSprite: SKSpriteNode {
+
   override init() {
     super.init()
-    name = "wall"
+    name = "ledge"
     color = SKColor.brownColor()
-    size = CGSizeMake(17, 335)
-    position = CGPointMake(13,170)
+    size = CGSizeMake(100, 17)
+    position = CGPointMake(70,520)
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
     physicsBody?.dynamic = false
     physicsBody?.allowsRotation = false
+    physicsBody?.pinned = false
   }
   
   override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
@@ -39,5 +39,4 @@ class WallSprite: SKSpriteNode {
     position = location
   }
   
-   
 }

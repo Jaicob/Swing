@@ -9,6 +9,7 @@
 import SpriteKit
 
 class Ceiling: SKSpriteNode {
+  
   override init() {
     super.init()
     name = "ceiling"
@@ -24,10 +25,10 @@ class Ceiling: SKSpriteNode {
     setUpPhysics()
   }
   
-   init(location : CGPoint) {
+  init(location : CGPoint) {
     super.init()
     size = CGSizeMake(1090, 190)
-    color = SKColor.redColor()
+    color = SKColor.grayColor()
     position = location
     name = "ceiling"
     setUpPhysics()
@@ -47,5 +48,5 @@ class Ceiling: SKSpriteNode {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
+  
 }
