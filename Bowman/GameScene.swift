@@ -6,12 +6,18 @@
 //  Copyright (c) 2014 Jaicob Stewart. All rights reserved.
 //
 
+
+//TODO Clean up the codes
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   var player = PlayerSprite()
   let moveCeiling = SKAction.moveBy(CGVectorMake(-5, 0), duration: 0)
-  
+  let startPosition = CGPointMake(70,520)
+  let playerStart = CGPointMake(70,522)
+
+  var updatesCalled = 0
+
   override func didMoveToView(view: SKView) {
     player.position = CGPointMake(self.size.width * 0.045, 554)
     setupPhysicsWorld()
@@ -21,6 +27,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let wall = WallSprite()
     let ledge = LedgeSprite()
+    ledge.physicsBody?.categoryBitMask = Category.Platform
+    ledge.name = "currentLedge"
+    let targetLedge = LedgeSprite(location: CGPointMake(622, 270))
+    targetLedge.size = CGSizeMake(100, 25)
     
     //setup target
     let target = self.childNodeWithName("target")
@@ -28,8 +38,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //target?.physicsBody?.contactTestBitMask = Category.None
     
     self.addChild(player)
-    self.addChild(wall)
+    //self.addChild(wall)
     self.addChild(ledge)
+    self.addChild(targetLedge)
     self.addChild(ceilingOne)
     self.addChild(ceilingTwo)
   }
@@ -44,9 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let touch = touches.anyObject()
     let touchLocation = touch?.locationInNode(self)
     
-    if self.childNodeWithName("reset")!.containsPoint(touchLocation!) {
-      reset()
-    }
+
   }
   
   override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
@@ -60,11 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let touch = touches.anyObject() as UITouch
     let touchLocation = touch.locationInNode(self)
-    
-    if self.childNodeWithName("reset")!.containsPoint(touchLocation) {
-      reset()
-      return
-    }
     
     let projectile = Projectile()
     projectile.position = player.position
@@ -105,40 +109,73 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func didBeginContact(contact: SKPhysicsContact) {
-//    switch detectCollisionType(contact) {
-//      
-//    case .PlayerAndPlatform:
-//      println("player and platform")
-//    case .ProjectileAndCeiling:
-//      projectileDidCollideWithCeiling(contact.bodyA.node as SKSpriteNode, projectile: contact.bodyB.node as SKSpriteNode)
-//    default:
-//      println("not recognized")
-//    }
+    //    switch detectCollisionType(contact) {
+    //
+    //    case .PlayerAndPlatform:
+    //      println("player and platform")
+    //    case .ProjectileAndCeiling:
+    //      projectileDidCollideWithCeiling(contact.bodyA.node as SKSpriteNode, projectile: contact.bodyB.node as SKSpriteNode)
+    //    default:
+    //      println("not recognized")
+    //    }
     
     
-    println("HIT")
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-          firstBody = contact.bodyA
-          secondBody = contact.bodyB
-        } else {
-          firstBody = contact.bodyB
-          secondBody = contact.bodyA
-        }
-        if ((firstBody.categoryBitMask & Category.Ceiling != 0) &&
-          (secondBody.categoryBitMask & Category.Projectile != 0)) {
-            projectileDidCollideWithCeiling(firstBody.node as SKSpriteNode, projectile: secondBody.node as SKSpriteNode)
-        }
+    if(updatesCalled == 0) {return}
+    updatesCalled = 0
+    
+    var firstBody: SKPhysicsBody
+    var secondBody: SKPhysicsBody
+    if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+      firstBody = contact.bodyA
+      secondBody = contact.bodyB
+    } else {
+      firstBody = contact.bodyB
+      secondBody = contact.bodyA
+    }
+    if ((firstBody.categoryBitMask & Category.Ceiling != 0) &&
+      (secondBody.categoryBitMask & Category.Projectile != 0)) {
+        projectileDidCollideWithCeiling(firstBody.node as SKSpriteNode, projectile: secondBody.node as SKSpriteNode)
+    }
+    
+    if ((firstBody.categoryBitMask & Category.Player != 0) ||
+      (secondBody.categoryBitMask & Category.TargetPlatform != 0)){
+        playerDidContactPlatform(secondBody.node as LedgeSprite)
+    } else if ((secondBody.categoryBitMask & Category.Player != 0) ||
+    (firstBody.categoryBitMask & Category.TargetPlatform != 0)) {
+      playerDidContactPlatform(firstBody.node as LedgeSprite)
+    }
   }
   
+  func playerDidContactPlatform(platform : LedgeSprite) {
+    println("player contacted platform")
+    if platform.name == "currentLedge" {return}
+    platform.physicsBody?.categoryBitMask = Category.Platform
+    let moveLedgeUp = SKAction.moveTo(startPosition, duration: 1)
+    let movePlayerUp = SKAction.moveTo(playerStart, duration: 1)
+    player.runAction(movePlayerUp)
+    platform.name = "currentLedge"
+    platform.runAction(moveLedgeUp, completion: { () -> Void in
+      
+    })
+    self.generateNextPlatform()
+  }
+  
+  func generateNextPlatform() {
+    var randomX  = CGFloat(random() % 700 + 500)
+    var randomSize = CGFloat(random() % 120 + 40)
+    
+    let targetLedge = LedgeSprite(location: CGPointMake(1022, -270), size:CGSizeMake(randomSize, 25))
+    let moveIntoPlace = SKAction.moveTo(CGPointMake(randomX, 270), duration: 1)
+    self.addChild(targetLedge)
+    targetLedge.runAction(moveIntoPlace)
+  }
   
   func projectileDidCollideWithCeiling(ceiling:SKSpriteNode, projectile:SKSpriteNode) {
     println("projectile and Ceiling")
     projectile.physicsBody?.velocity = CGVectorMake(0, 0)
     joinPlayerWith(projectile)
     createPendulumJointWith(projectile, ceiling: ceiling)
-    self.childNodeWithName("ledge")?.removeFromParent()
+    self.childNodeWithName("currentLedge")?.removeFromParent()
     player.physicsBody?.applyImpulse(CGVectorMake(10, 0))
     
   }
@@ -166,23 +203,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func reset() {
-    println("Reset")
-    if let oldLedge = self.childNodeWithName("ledge") {
-      oldLedge.removeFromParent()
-    }
-    
-    let ledge = LedgeSprite()
-    self.addChild(ledge)
+    println("Inside Reset")
+    self.removeAllChildren()
+    self.removeAllActions()
+   
     player.position = CGPointMake(self.size.width * 0.045, 554)
+    setupPhysicsWorld()
+    
+    let ceilingOne = Ceiling(location: CGPointMake(572,750))
+    let ceilingTwo = Ceiling(location: CGPointMake(2664,700))
+    
+    let wall = WallSprite()
+    let ledge = LedgeSprite()
+    ledge.physicsBody?.categoryBitMask = Category.Platform
+    ledge.name = "currentLedge"
+    let targetLedge = LedgeSprite(location: CGPointMake(622, 270))
+    targetLedge.size = CGSizeMake(100, 25)
+    
+    let target = self.childNodeWithName("target")
+    self.addChild(player)
+    self.addChild(ledge)
+    self.addChild(targetLedge)
+    self.addChild(ceilingOne)
+    self.addChild(ceilingTwo)
+    
   }
   
   override func update(currentTime: CFTimeInterval) {
+    updatesCalled++
     if let projectile = self.childNodeWithName("projectile") {
       if player.physicsBody?.velocity.dx <= 10 && player.physicsBody?.velocity.dy > 2  {
         println("x < 20 and y > 0")
         projectile.removeFromParent()
         physicsWorld.removeAllJoints()
       }
+    }
+    
+    if player.position.y < 0 {
+      player.removeFromParent()
+    }
+    
+    if self.childNodeWithName("player") == nil  {
+      reset()
     }
   }
   

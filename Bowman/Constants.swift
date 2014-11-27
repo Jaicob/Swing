@@ -57,6 +57,7 @@ struct Category {
   static let Projectile:      UInt32 = 2
   static let TargetPlatform:  UInt32 = 4
   static let Player:          UInt32 = 8
+  static let Platform:        UInt32 = 16
   static let All  :           UInt32 = UInt32.max
 }
 

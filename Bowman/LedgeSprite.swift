@@ -9,18 +9,25 @@
 import SpriteKit
 
 class LedgeSprite: SKSpriteNode {
-
+  let startPosition = CGPointMake(70,522)
+  
   override init() {
     super.init()
     name = "ledge"
     color = SKColor.brownColor()
-    size = CGSizeMake(100, 17)
-    position = CGPointMake(70,520)
+    size = CGSizeMake(100, 25)
+    position = startPosition
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
     physicsBody?.dynamic = false
     physicsBody?.allowsRotation = false
     physicsBody?.pinned = false
+    physicsBody?.restitution = 0
+    physicsBody?.categoryBitMask = Category.Platform
+    physicsBody?.contactTestBitMask = Category.Player
+    physicsBody?.collisionBitMask = Category.Player
+    physicsBody?.usesPreciseCollisionDetection = false
+
   }
   
   override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
@@ -32,11 +39,22 @@ class LedgeSprite: SKSpriteNode {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(location : CGPoint) {
+  init(location : CGPoint, size: CGSize = CGSizeMake(100, 25)) {
     super.init()
+    name = "ledge"
     color = SKColor.brownColor()
-    size = CGSizeMake(120, 30)
+    self.size = size
     position = location
+    physicsBody = SKPhysicsBody(rectangleOfSize: size)
+    physicsBody?.affectedByGravity = false
+    physicsBody?.dynamic = false
+    physicsBody?.allowsRotation = false
+    physicsBody?.pinned = false
+    physicsBody?.restitution = 0
+    physicsBody?.categoryBitMask = Category.TargetPlatform
+    physicsBody?.contactTestBitMask = Category.Player
+    physicsBody?.collisionBitMask = Category.Player
+    physicsBody?.usesPreciseCollisionDetection = false
   }
   
 }
