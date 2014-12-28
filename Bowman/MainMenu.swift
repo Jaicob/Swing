@@ -22,9 +22,6 @@ class MainMenu: SKSpriteNode {
   }
   
   func layoutSubNodes() {
-
-    
-    
     var startButton = SKSpriteNode(color: SKColor.lightGrayColor(), size: CGSizeMake(90, 90))
     startButton.position = CGPointMake(self.position.x, self.position.y)
     startButton.zPosition = Layer.MainMenu

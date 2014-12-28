@@ -21,11 +21,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   override init(size: CGSize) {
     super.init(size: size)
-    
   }
-
+  
   required init?(coder aDecoder: NSCoder) {
-      super.init(coder: aDecoder)
+    super.init(coder: aDecoder)
   }
   
   
@@ -35,14 +34,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     setupPhysicsWorld()
     setupScene()
     
-    //MainMenu tesing
     let mainMenu = MainMenu()
-        mainMenu.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5)
-    println("SCREENSIZE\(self.scene?.size)")
+    mainMenu.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5)
     self.addChild(mainMenu)
-
-    
-    
   }
   
   func setupScene() {
@@ -58,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     targetLedge.size = CGSizeMake(100, 15)
     let target = self.childNodeWithName("target")
     score = SKLabelNode(text: String(points))
-    score.position = CGPointMake(65, 140)
+    score.position = CGPointMake(65, 240)
     score.fontColor = SKColor.blackColor()
     
     self.addChild(player)
@@ -81,7 +75,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
     let touch = touches.anyObject() as UITouch
     let touchLocation = touch.locationInNode(self)
-    //println("DEBUG: Name of node being touch \(self.nodeAtPoint(touchLocation))")
     
     if let mainMenu = self.childNodeWithName("mainMenu") {
       return
@@ -93,8 +86,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       return
     }
     
-  
-    //TODO: Maker a marker class
+    
+    //TODO: Make a marker class
     removeOldMarker()
     let marker = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(15, 15))
     marker.position = CGPointMake(player.position.x, 650)
@@ -107,30 +100,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-    
-
     let touch = touches.anyObject() as UITouch
     let touchLocation = touch.locationInNode(self)
-   
-    //Handle MainMenu
+    
+    //TODO: make another method
     if let mainMenu = self.childNodeWithName("mainMenu") {
-     // println("DEBUG: inside first if")
       if self.nodeAtPoint(touchLocation) == mainMenu.childNodeWithName("start") {
-      //  println("DEBUG: inside second if")
-      // println("starting game")
         mainMenu.removeFromParent()
         return
       }
       return
     }
     
-    
-    //Handle GameOver
+    //TODO: make another method
     if let gameOver = self.childNodeWithName("gameOver") {
-     // println("DEBUG: inside first if")
       if self.nodeAtPoint(touchLocation) == gameOver.childNodeWithName("restart") {
-       // println("DEBUG: inside second if")
-       // println("restarting game")
         gameOver.removeFromParent()
         reset()
         return
@@ -142,7 +126,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       return
     }
     
-    println("touch ended")
     let marker = self.childNodeWithName("marker")
     marker?.removeActionForKey("moveRight")
     removeOldProjectile()
@@ -153,7 +136,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
     println("touch cancelled")
   }
-  
   
   
   
@@ -175,6 +157,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func generateNextPlatform() {
+    //could make this into a function that returns a tuple
     var randomX  = CGFloat(random() % 700 + 400)
     var randomY  = CGFloat(random() % 220 + 150)
     var randomSize = CGFloat(random() % 90 + 40)
@@ -215,16 +198,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     CGPathAddLineToPoint(bodyPath, nil, projectile.position.x - 0, projectile.position.y - 0)
     CGPathAddLineToPoint(bodyPath, nil, player.position.x + 10, player.position.y + 15)
     CGPathAddLineToPoint(bodyPath, nil, player.position.x + 10, player.position.y + 10)
-
-
-
     
     var rope = SKShapeNode(path: bodyPath)
     rope.fillColor = SKColor.blackColor()
     rope.strokeColor = SKColor.blackColor()
     rope.lineWidth = 2
     rope.name = "rope"
-    rope.physicsBody = SKPhysicsBody(polygonFromPath: bodyPath)    
+    rope.physicsBody = SKPhysicsBody(polygonFromPath: bodyPath)
     rope.physicsBody?.affectedByGravity = true
     rope.physicsBody?.dynamic = true
     rope.physicsBody?.allowsRotation = true
@@ -235,11 +215,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerAndRope = SKPhysicsJointPin.jointWithBodyA(player.physicsBody, bodyB: rope.physicsBody, anchor: CGPointMake(player.position.x + player.size.width / 2, player.position.y))
     self.physicsWorld.addJoint(playerAndRope)
-
+    
     
     let projectileAndRope = SKPhysicsJointPin.jointWithBodyA(projectile.physicsBody, bodyB: rope.physicsBody, anchor: CGPointMake(projectile.position.x, projectile.position.y))
     self.physicsWorld.addJoint(projectileAndRope)
-  
+    
     self.physicsWorld.addJoint(pendulumJoint)
   }
   
@@ -307,7 +287,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     platform.runAction(moveLedgeUp, completion: { () -> Void in
       self.userInteractionEnabled = true
     })
-      self.generateNextPlatform()
+    self.generateNextPlatform()
   }
   
   func projectileDidCollideWithCeiling(ceiling:SKSpriteNode, projectile:SKSpriteNode) {
@@ -346,7 +326,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     updatesCalled++
     
     if self.childNodeWithName("gameOver") != nil {
-      return 
+      return
     }
     if player.position.y < 0 && self.childNodeWithName("gameOver") == nil {
       gameOver()
@@ -361,7 +341,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.removeAllJoints()
       }
     }
-
+    
   }
   
 }

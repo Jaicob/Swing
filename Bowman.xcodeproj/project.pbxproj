@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CA215F691A26E29400041907 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA215F681A26E29400041907 /* MainMenu.swift */; };
 		CA215F6D1A26FB5200041907 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA215F6C1A26FB5200041907 /* GameOver.swift */; };
+		CA4D31C71A4FCD310097C151 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA4D31C61A4FCD310097C151 /* iAd.framework */; };
 		CAAA7D1C1A22F0A600E200BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */; };
 		CAAA7D1E1A22F0A600E200BB /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CAAA7D1D1A22F0A600E200BB /* GameScene.sks */; };
 		CAAA7D201A22F0A600E200BB /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D1F1A22F0A600E200BB /* GameScene.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		CA215F681A26E29400041907 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		CA215F6C1A26FB5200041907 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
+		CA4D31C61A4FCD310097C151 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		CAAA7D161A22F0A600E200BB /* Bowman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bowman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAAA7D1A1A22F0A600E200BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA4D31C71A4FCD310097C151 /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +84,7 @@
 		CAAA7D0D1A22F0A600E200BB = {
 			isa = PBXGroup;
 			children = (
+				CA4D31C61A4FCD310097C151 /* iAd.framework */,
 				CAAA7D181A22F0A600E200BB /* Bowman */,
 				CAAA7D321A22F0A600E200BB /* BowmanTests */,
 				CAAA7D171A22F0A600E200BB /* Products */,
