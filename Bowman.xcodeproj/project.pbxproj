@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA215F691A26E29400041907 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA215F681A26E29400041907 /* MainMenu.swift */; };
+		CA215F6D1A26FB5200041907 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA215F6C1A26FB5200041907 /* GameOver.swift */; };
 		CAAA7D1C1A22F0A600E200BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */; };
 		CAAA7D1E1A22F0A600E200BB /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CAAA7D1D1A22F0A600E200BB /* GameScene.sks */; };
 		CAAA7D201A22F0A600E200BB /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAA7D1F1A22F0A600E200BB /* GameScene.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA215F681A26E29400041907 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		CA215F6C1A26FB5200041907 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		CAAA7D161A22F0A600E200BB /* Bowman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bowman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAAA7D1A1A22F0A600E200BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 				CAAA7D1B1A22F0A600E200BB /* AppDelegate.swift */,
 				CAAA7D1D1A22F0A600E200BB /* GameScene.sks */,
 				CAAA7D1F1A22F0A600E200BB /* GameScene.swift */,
+				CA215F681A26E29400041907 /* MainMenu.swift */,
+				CA215F6C1A26FB5200041907 /* GameOver.swift */,
 				CAAA7D211A22F0A600E200BB /* GameViewController.swift */,
 				CAAA7D491A245F5A00E200BB /* Sprites */,
 				CAAA7D231A22F0A600E200BB /* Main.storyboard */,
@@ -255,7 +261,9 @@
 				CAAA7D401A22F10300E200BB /* PlayerSprite.swift in Sources */,
 				CAAA7D4B1A245F8000E200BB /* Ceiling.swift in Sources */,
 				CAAA7D221A22F0A600E200BB /* GameViewController.swift in Sources */,
+				CA215F691A26E29400041907 /* MainMenu.swift in Sources */,
 				CAAA7D481A245C5400E200BB /* Projectile.swift in Sources */,
+				CA215F6D1A26FB5200041907 /* GameOver.swift in Sources */,
 				CAAA7D1C1A22F0A600E200BB /* AppDelegate.swift in Sources */,
 				CAAA7D4D1A2527CB00E200BB /* LedgeSprite.swift in Sources */,
 				CAAA7D461A23DA7400E200BB /* Constants.swift in Sources */,

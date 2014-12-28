@@ -12,7 +12,7 @@ class Projectile: SKSpriteNode {
 
   override init() {
     super.init()
-    color = SKColor.blackColor()
+    color = SKColor.clearColor()
     size = CGSizeMake(10, 10)
     name = "projectile"
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
@@ -26,7 +26,6 @@ class Projectile: SKSpriteNode {
   
   override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
     super.init(texture: texture, color: color, size: size)
-    
   }
 
   required init?(coder aDecoder: NSCoder) {

@@ -17,8 +17,7 @@ class PlayerSprite: SKSpriteNode {
   override init() {
     super.init()
     name = "player"
-    color = SKColor.redColor()
-    texture = SKTexture(imageNamed: "player")
+    color = SKColor.lightGrayColor()
     size = CGSizeMake(30, 50)
     physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
     physicsBody?.dynamic = true
@@ -30,7 +29,6 @@ class PlayerSprite: SKSpriteNode {
     physicsBody?.contactTestBitMask = Category.TargetPlatform | Category.Platform
     physicsBody?.collisionBitMask = Category.TargetPlatform   | Category.Platform
     physicsBody?.usesPreciseCollisionDetection = true
-
   }
   
   required convenience init?(coder aDecoder: NSCoder) {

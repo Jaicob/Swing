@@ -15,7 +15,7 @@ class LedgeSprite: SKSpriteNode {
     super.init()
     name = "ledge"
     color = SKColor.brownColor()
-    size = CGSizeMake(100, 25)
+    size = CGSizeMake(100, 15)
     position = startPosition
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
@@ -27,19 +27,17 @@ class LedgeSprite: SKSpriteNode {
     physicsBody?.contactTestBitMask = Category.Player
     physicsBody?.collisionBitMask = Category.Player
     physicsBody?.usesPreciseCollisionDetection = false
-
   }
   
   override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
     super.init(texture: texture, color: color, size: size)
-    
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(location : CGPoint, size: CGSize = CGSizeMake(100, 25)) {
+  init(location : CGPoint, size: CGSize = CGSizeMake(100, 15)) {
     super.init()
     name = "ledge"
     color = SKColor.brownColor()
@@ -56,5 +54,4 @@ class LedgeSprite: SKSpriteNode {
     physicsBody?.collisionBitMask = Category.Player
     physicsBody?.usesPreciseCollisionDetection = false
   }
-  
 }
