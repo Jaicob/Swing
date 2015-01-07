@@ -36,8 +36,8 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
     if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
       // Configure the view.
       let skView = self.view as SKView
-      skView.showsFPS = true
-      skView.showsNodeCount = true
+      skView.showsFPS = false
+      skView.showsNodeCount = false
       skView.showsPhysics = false
       
       /* Sprite Kit applies additional optimizations to improve rendering performance */
@@ -83,24 +83,24 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
   }
   
   func bannerViewDidLoadAd(banner: ADBannerView!){
-    println("1")
+   // println("1")
     adBannerView.hidden = false //now show banner as ad is loaded
   }
   
   func bannerViewActionDidFinish(banner: ADBannerView!) {
-    println("2")
+   // println("2")
   }
   
   func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
     //Tap to view the ad
     //scene.paused = true
-    println("3")
+   // println("3")
     return true
   }
   
   func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
    // adBannerView.hidden = true
-    println("44444")
+   // println("44444")
   }
   
 }

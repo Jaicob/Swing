@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Jaicob Stewart. All rights reserved.
 //
 
-
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -26,7 +25,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
-  
   
   //MARK: - Setup code
   override func didMoveToView(view: SKView) {
@@ -52,7 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     targetLedge.size = CGSizeMake(100, 15)
     let target = self.childNodeWithName("target")
     score = SKLabelNode(text: String(points))
-    score.position = CGPointMake(65, 240)
+    score.position = CGPointMake(500, 580)
     score.fontColor = SKColor.blackColor()
     
     self.addChild(player)
@@ -67,7 +65,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     physicsWorld.gravity = CGVectorMake(0, -9.8)
     physicsWorld.contactDelegate = self
   }
-  
   
   
   
@@ -86,17 +83,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       return
     }
     
-    
-    //TODO: Make a marker class
-    removeOldMarker()
-    let marker = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(15, 15))
-    marker.position = CGPointMake(player.position.x, 650)
-    marker.name = "marker"
-    marker.zPosition = 1000
+    let marker = Marker(position: CGPointMake(player.position.x, 650))
     self.addChild(marker)
-    
-    let moveRight = SKAction.moveToX(1200, duration: 1.5)
-    marker.runAction(moveRight, withKey: "moveRight")
+    marker.runAction(marker.moveRight, withKey: "moveRight")
   }
   
   override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
@@ -128,8 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let marker = self.childNodeWithName("marker")
     marker?.removeActionForKey("moveRight")
-    removeOldProjectile()
-    removeOldProjectile()
+    removeNode("projectile")
     shootProjectile(marker!.position)
   }
   
@@ -159,7 +147,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func generateNextPlatform() {
     //could make this into a function that returns a tuple
     var randomX  = CGFloat(random() % 700 + 400)
-    var randomY  = CGFloat(random() % 220 + 150)
+    var randomY  = CGFloat(random() % 220 + 200)
     var randomSize = CGFloat(random() % 90 + 40)
     
     let targetLedge = LedgeSprite(location: CGPointMake(1022, -270), size:CGSizeMake(randomSize, 15))
@@ -168,25 +156,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     targetLedge.runAction(moveIntoPlace)
   }
   
-  func moveTheCeilings() {
-    self.enumerateChildNodesWithName("ceiling", usingBlock: { node, stop in
-      if node.position.x <= -(node as SKSpriteNode).size.width {
-        node.position = CGPointMake(node.position.x + (node as SKSpriteNode).size.width * 2, node.position.y)
-      }
-      (node as SKSpriteNode).runAction(self.moveCeiling)
-    })
-  }
-  
-  func reset() {
-    self.removeAllChildren()
-    self.removeAllActions()
-    points = -1
-    setupScene()
-  }
   
   func createPendulumJointWith(projectile : SKSpriteNode, ceiling: SKSpriteNode) {
     let pendulumJoint = SKPhysicsJointPin.jointWithBodyA(ceiling.physicsBody, bodyB:projectile.physicsBody , anchor: projectile.position)
-    //create a path between projectile and player then create a shpe node based off of that. Boom
+    
     var context = UIGraphicsGetCurrentContext()
     var path = CGPathCreateMutable()
     var bodyPath = CGPathCreateMutable()
@@ -228,18 +201,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     self.physicsWorld.addJoint(newJoint)
   }
   
-  func removeOldProjectile() {
-    if self.childNodeWithName("projectile") != nil {
-      self.childNodeWithName("projectile")?.removeFromParent()
+  func removeNode(name: String) {
+    if let node = self.childNodeWithName(name) {
+      node.removeFromParent()
     }
   }
   
-  func removeOldMarker() {
-    if let marker = self.childNodeWithName("marker") {
-      marker.removeFromParent()
-    }
+  func reset() {
+    self.removeAllChildren()
+    self.removeAllActions()
+    points = -1
+    setupScene()
   }
-  
   
   
   //Could possibly make a colliosn handling class
@@ -277,7 +250,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     points++
     score.text = String(points)
-    println("player contacted platform")
     if platform.name == "currentLedge" {return}
     platform.physicsBody?.categoryBitMask = Category.Platform
     let moveLedgeUp = SKAction.moveTo(startPosition, duration: 1)
@@ -291,8 +263,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func projectileDidCollideWithCeiling(ceiling:SKSpriteNode, projectile:SKSpriteNode) {
-    println("projectile and Ceiling")
     self.userInteractionEnabled = false;
+    removeNode("marker")
     projectile.physicsBody?.velocity = CGVectorMake(0, 0)
     joinPlayerWith(projectile)
     createPendulumJointWith(projectile, ceiling: ceiling)
@@ -312,14 +284,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     return CollisionType.None
   }
   
-  
   func gameOver() {
+    updateHighscore()
     self.userInteractionEnabled = true;
     let gameOverMenu = GameOver()
     gameOverMenu.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5)
     self.addChild(gameOverMenu)
   }
   
+  //MARK: User Data/Settings
+  
+  func updateHighscore(){
+    let userDefaults =  NSUserDefaults.standardUserDefaults()
+    if let highscore = userDefaults.valueForKey("highscore") as? Int {
+      if points > highscore {
+        userDefaults.setInteger(points, forKey: "highscore")
+      }
+    } else {
+      userDefaults.setInteger(points, forKey: "highscore")
+    }
+  }
   
   //MARK: - Game loop
   override func update(currentTime: CFTimeInterval) {
@@ -335,13 +319,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     if let projectile = self.childNodeWithName("projectile") {
       if player.physicsBody?.velocity.dx <= 15 && player.physicsBody?.velocity.dy > 1  {
-        println("x < 20 and y > 0")
         projectile.removeFromParent()
         self.childNodeWithName("rope")?.removeFromParent()
         physicsWorld.removeAllJoints()
       }
     }
-    
   }
   
 }
