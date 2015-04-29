@@ -6,49 +6,45 @@
 //  Copyright (c) 2014 Jaicob Stewart. All rights reserved.
 //
 
+import Foundation
 import SpriteKit
 
-class GameOver: SKSpriteNode {
-  var restart : SKSpriteNode!
+class GameOverScene: SKScene {
   
-  init() {
-    var size = CGSizeMake(1028, 754)
-    var color = SKColor.clearColor()
-    super.init(texture: nil, color: color, size: size)
-    name = "gameOver"
-    zPosition = Layer.MainMenu
-    layoutSubNodes()
-  }
-  
-  func layoutSubNodes() {
-    var restart = SKSpriteNode(color: SKColor.lightGrayColor(), size: CGSizeMake(90, 90))
-    restart.position = CGPointMake(self.position.x, self.position.y)
-    restart.zPosition = Layer.MainMenu
-    restart.alpha = 1
-    restart.name = "restart"
-    var restartText = SKLabelNode(text: "Restart")
-    restartText.fontColor = SKColor.whiteColor()
-    restartText.fontSize = 24
-    restartText.fontName = UIFont.boldSystemFontOfSize(20).fontName
-    restartText.zPosition = Layer.MainMenu
-    restartText.name = "restart"
-    restart.addChild(restartText)
-    self.restart = restart
-    self.addChild(restart)
+  override init(size: CGSize) {
     
-    let modal = SKSpriteNode(color: UIColor.blackColor(), size: self.size)
-    modal.alpha = 0.5
-    modal.zPosition = Layer.Background
-    modal.name = "modal"
-    self.addChild(modal)
+    super.init(size: size)
+    
+    // 1
+    backgroundColor = SKColor.whiteColor()
+    
+    // 2
+    var message = "You Lose :["
+    
+    // 3
+    let label = SKLabelNode(fontNamed: "Chalkduster")
+    label.text = message
+    label.fontSize = 40
+    label.fontColor = SKColor.blackColor()
+    label.position = CGPoint(x: size.width/2, y: size.height/2)
+    addChild(label)
+    
+    // 4
+    runAction(SKAction.sequence([
+      SKAction.waitForDuration(3.0),
+      SKAction.runBlock() {
+        println("INITING GAME OVER SCENE")
+        let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+        let scene = GameScene(size: size)
+        scene.backgroundColor = SKColor.whiteColor()
+        self.view?.presentScene(scene, transition:reveal)
+      }
+      ]))
+    
   }
   
-  override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-    super.init(texture: texture, color: color, size: size)
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
+  // 6
+  required init(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
 }

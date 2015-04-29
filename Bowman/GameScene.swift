@@ -31,10 +31,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     player.position = CGPointMake(self.size.width * 0.045, 554)
     setupPhysicsWorld()
     setupScene()
-    
-    let mainMenu = MainMenu()
-    mainMenu.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5)
-    self.addChild(mainMenu)
+  }
+  
+  override func willMoveFromView(view: SKView) {
+    println("Removing Scene")
   }
   
   func setupScene() {
@@ -66,23 +66,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     physicsWorld.contactDelegate = self
   }
   
-  
-  
   //MARK: - Touch handling
   override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
     let touch = touches.first! as! UITouch
     let touchLocation = touch.locationInNode(self)
-    
-    if let mainMenu = self.childNodeWithName("mainMenu") {
-      return
-    }
-    if let gameOver = self.childNodeWithName("gameOver") {
-      return
-    }
-    if let gameOver = self.childNodeWithName("modal") {
-      return
-    }
-    
     let marker = Marker(position: CGPointMake(player.position.x, 650))
     self.addChild(marker)
     marker.runAction(marker.moveRight, withKey: "moveRight")
@@ -91,30 +78,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
     let touch = touches.first! as! UITouch
     let touchLocation = touch.locationInNode(self)
-    
-    //TODO: make another method
-    if let mainMenu = self.childNodeWithName("mainMenu") {
-      if self.nodeAtPoint(touchLocation) == mainMenu.childNodeWithName("start") {
-        mainMenu.removeFromParent()
-        return
-      }
-      return
-    }
-    
-    //TODO: make another method
-    if let gameOver = self.childNodeWithName("gameOver") {
-      if self.nodeAtPoint(touchLocation) == gameOver.childNodeWithName("restart") {
-        gameOver.removeFromParent()
-        reset()
-        return
-      }
-      return
-    }
-    
-    if let gameOver = self.childNodeWithName("modal") {
-      return
-    }
-    
     let marker = self.childNodeWithName("marker")
     marker?.removeActionForKey("moveRight")
     removeNode("projectile")
@@ -124,8 +87,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func touchesCancelled(touches:Set<NSObject>, withEvent event: UIEvent) {
     println("touch cancelled")
   }
-  
-  
   
   //MARK: - Node Interactions
   func shootProjectile(target : CGPoint) {
@@ -149,7 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var randomX  = CGFloat(random() % 700 + 400)
     var randomY  = CGFloat(random() % 220 + 200)
     var randomSize = CGFloat(random() % 90 + 40)
-    
     let targetLedge = LedgeSprite(location: CGPointMake(1022, -270), size:CGSizeMake(randomSize, 15))
     let moveIntoPlace = SKAction.moveTo(CGPointMake(randomX, randomY), duration: 1)
     self.addChild(targetLedge)
@@ -159,13 +119,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   func createPendulumJointWith(projectile : SKSpriteNode, ceiling: SKSpriteNode) {
     let pendulumJoint = SKPhysicsJointPin.jointWithBodyA(ceiling.physicsBody, bodyB:projectile.physicsBody , anchor: projectile.position)
-    
     var context = UIGraphicsGetCurrentContext()
     var path = CGPathCreateMutable()
     var bodyPath = CGPathCreateMutable()
+    
     CGPathMoveToPoint(path, nil, player.position.x + 10, player.position.y + 10)
     CGPathAddLineToPoint(path, nil, projectile.position.x - 15, projectile.position.y - 15)
-    
     CGPathMoveToPoint(bodyPath, nil, player.position.x + 10, player.position.y + 10)
     CGPathAddLineToPoint(bodyPath, nil, projectile.position.x - 0, projectile.position.y - 5)
     CGPathAddLineToPoint(bodyPath, nil, projectile.position.x - 0, projectile.position.y - 0)
@@ -188,11 +147,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerAndRope = SKPhysicsJointPin.jointWithBodyA(player.physicsBody, bodyB: rope.physicsBody, anchor: CGPointMake(player.position.x + player.size.width / 2, player.position.y))
     self.physicsWorld.addJoint(playerAndRope)
-    
-    
     let projectileAndRope = SKPhysicsJointPin.jointWithBodyA(projectile.physicsBody, bodyB: rope.physicsBody, anchor: CGPointMake(projectile.position.x, projectile.position.y))
     self.physicsWorld.addJoint(projectileAndRope)
-    
     self.physicsWorld.addJoint(pendulumJoint)
   }
   
@@ -285,15 +241,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func gameOver() {
+    println("GAME OVER")
     updateHighscore()
-    self.userInteractionEnabled = true;
-    let gameOverMenu = GameOver()
-    gameOverMenu.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5)
-    self.addChild(gameOverMenu)
+    let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+    let gameOverScene = GameOverScene(size: self.size)
+    self.view?.presentScene(gameOverScene)
   }
   
   //MARK: User Data/Settings
-  
   func updateHighscore(){
     let userDefaults =  NSUserDefaults.standardUserDefaults()
     if let highscore = userDefaults.valueForKey("highscore") as? Int {
@@ -309,13 +264,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func update(currentTime: CFTimeInterval) {
     updatesCalled++
     
-    if self.childNodeWithName("gameOver") != nil {
-      return
-    }
-    if player.position.y < 0 && self.childNodeWithName("gameOver") == nil {
+    if player.position.y < 0  {
       gameOver()
       return
     }
+    
     
     if let projectile = self.childNodeWithName("projectile") {
       if player.physicsBody?.velocity.dx <= 15 && player.physicsBody?.velocity.dy > 1  {
@@ -325,5 +278,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       }
     }
   }
-  
 }
+
+

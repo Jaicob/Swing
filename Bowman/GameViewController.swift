@@ -32,23 +32,33 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-      // Configure the view.
+//    
+//    if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+//      // Configure the view.
+//      let skView = self.view as! SKView
+//      skView.showsFPS = false
+//      skView.showsNodeCount = false
+//      skView.showsPhysics = false
+//      
+//      /* Sprite Kit applies additional optimizations to improve rendering performance */
+//      skView.ignoresSiblingOrder = true
+//      
+//      /* Set the scale mode to scale to fit the window */
+//      scene.scaleMode = .AspectFill
+//      
+//      skView.presentScene(scene)
+//      loadAds()
+//    } else {
+      let scene = MainMenuScene(size: view.bounds.size)
       let skView = self.view as! SKView
       skView.showsFPS = false
       skView.showsNodeCount = false
       skView.showsPhysics = false
-      
-      /* Sprite Kit applies additional optimizations to improve rendering performance */
       skView.ignoresSiblingOrder = true
-      
-      /* Set the scale mode to scale to fit the window */
       scene.scaleMode = .AspectFill
-      
       skView.presentScene(scene)
       loadAds()
-    }
+//    }
   }
   
   override func shouldAutorotate() -> Bool {
@@ -83,24 +93,24 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
   }
   
   func bannerViewDidLoadAd(banner: ADBannerView!){
-   // println("1")
+    // println("1")
     adBannerView.hidden = false //now show banner as ad is loaded
   }
   
   func bannerViewActionDidFinish(banner: ADBannerView!) {
-   // println("2")
+    // println("2")
   }
   
   func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
     //Tap to view the ad
     //scene.paused = true
-   // println("3")
+    // println("3")
     return true
   }
   
   func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
-   // adBannerView.hidden = true
-   // println("44444")
+    // adBannerView.hidden = true
+    // println("44444")
   }
   
 }

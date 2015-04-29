@@ -6,50 +6,55 @@
 //  Copyright (c) 2014 Jaicob Stewart. All rights reserved.
 //
 
+import Foundation
 import SpriteKit
 
-class MainMenu: SKSpriteNode {
-  var startButton : SKSpriteNode!
-
+class MainMenuScene: SKScene {
   
-   init() {
-    var size = CGSizeMake(1028, 754)
-    var color = SKColor.clearColor()
-    super.init(texture: nil, color: color, size: size)
-    name = "mainMenu"
-    zPosition = Layer.MainMenu
-    layoutSubNodes()
-  }
-  
-  func layoutSubNodes() {
-    var startButton = SKSpriteNode(color: SKColor.lightGrayColor(), size: CGSizeMake(90, 90))
-    startButton.position = CGPointMake(self.position.x, self.position.y)
-    startButton.zPosition = Layer.MainMenu
-    startButton.alpha = 1
-    startButton.name = "start"
-    var startText = SKLabelNode(text: "Start")
-    startText.fontColor = SKColor.whiteColor()
-    startText.fontSize = 24
-    startText.fontName = UIFont.boldSystemFontOfSize(20).fontName
-    startText.zPosition = Layer.MainMenu
-    startText.name = "start"
-    startButton.addChild(startText)
-    self.startButton = startButton
-    self.addChild(startButton)
+  override init(size: CGSize) {
     
-    let modal = SKSpriteNode(color: UIColor.blackColor(), size: self.size)
-    modal.alpha = 0.5
-    modal.zPosition = Layer.Background
-    modal.name = "modal"
-    self.addChild(modal)
-  }
-  
-  override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-    super.init(texture: texture, color: color, size: size)
+    super.init(size: size)
+    
+    backgroundColor = SKColor.whiteColor()
+    
+    var message = "Start"
+    let label = SKLabelNode(fontNamed: "Chalkduster")
+    label.name = "Start Button"
+    label.text = message
+    label.fontSize = 40
+    label.fontColor = SKColor.blackColor()
+    label.position = CGPoint(x: size.width/2, y: size.height/2)
+    addChild(label)
   }
   
   required init?(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+    super.init(coder: aDecoder)
   }
+  
+  
+  //MARK: - Touch Handling
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    let touch = touches.first as! UITouch
+    let touchLocation = touch.locationInNode(self)
+    if (self.childNodeWithName("Start Button")?.containsPoint(touchLocation) != nil) {
+      //present game scene
+      if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+        // Configure the view.
+        let skView = self.view! as SKView
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        skView.showsPhysics = false
+        //
+        /* Sprite Kit applies additional optimizations to improve rendering performance */
+        //              skView.ignoresSiblingOrder = true
+        
+        /* Set the scale mode to scale to fit the window */
+        scene.scaleMode = .AspectFill
+        
+        skView.presentScene(scene)
+      }
+    }
+  }
+  
   
 }
