@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D450E8D5-6C2C-4F6E-BB49-8C24CB0F7D1A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Bowman</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3F7D95D4A361DE669D6D0E3D1CF2ED2BC71AB6D5</key>
+		<string>https://github.com/Jaicob/Swing.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Bowman.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3F7D95D4A361DE669D6D0E3D1CF2ED2BC71AB6D5</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Jaicob/Swing.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3F7D95D4A361DE669D6D0E3D1CF2ED2BC71AB6D5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3F7D95D4A361DE669D6D0E3D1CF2ED2BC71AB6D5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Bowman</string>
+		</dict>
+	</array>
+</dict>
+</plist>
