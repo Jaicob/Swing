@@ -11,31 +11,28 @@ import SpriteKit
 class WallSprite: SKSpriteNode {
   
   
-  override init() {
-    super.init()
+   init() {
+    var color = SKColor.brownColor()
+    var size = CGSizeMake(17, 335)
+    super.init(texture: nil, color: color, size: size)
     name = "wall"
-    color = SKColor.brownColor()
-    size = CGSizeMake(17, 335)
     position = CGPointMake(13,170)
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
     physicsBody?.dynamic = false
     physicsBody?.allowsRotation = false
+
   }
   
-  override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-    super.init(texture: texture, color: color, size: size)
-    
-  }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(location : CGPoint) {
-    super.init()
-    color = SKColor.brownColor()
-    size = CGSizeMake(120, 30)
+  convenience init(location : CGPoint) {
+    self.init()
+//    color = SKColor.brownColor()
+//    size = CGSizeMake(120, 30)
     position = location
   }
   

@@ -10,27 +10,17 @@ import SpriteKit
 
 class Ceiling: SKSpriteNode {
   
-  override init() {
-    super.init()
-    name = "ceiling"
-    physicsBody = SKPhysicsBody(rectangleOfSize: size)
-    physicsBody?.categoryBitMask = Category.Ceiling
-    physicsBody?.contactTestBitMask = Category.Projectile
-    physicsBody?.collisionBitMask = Category.None
-    setUpPhysics()
-  }
-  
   override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
     super.init(texture: texture, color: color, size: size)
     setUpPhysics()
   }
   
   init(location : CGPoint) {
-    super.init()
-    size = CGSizeMake(1090, 190)
-    color = SKColor.grayColor()
-    position = location
-    name = "ceiling"
+    var size = CGSizeMake(1090, 190)
+    var color = SKColor.grayColor()
+    super.init(texture: nil, color: color, size: size)
+    self.position = location
+    self.name = "ceiling"
     setUpPhysics()
   }
   

@@ -11,27 +11,25 @@ import SpriteKit
 class PlayerSprite: SKSpriteNode {
   
   override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-    super.init(texture: texture, color: color, size: size)
-  }
-  
-  override init() {
-    super.init()
+    
+    var color = SKColor.lightGrayColor()
+    var size = CGSizeMake(30, 50)
+    super.init(texture: nil, color: color, size: size)
     name = "player"
-    color = SKColor.redColor()
-    texture = SKTexture(imageNamed: "player")
-    size = CGSizeMake(30, 50)
     physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
     physicsBody?.dynamic = true
     physicsBody?.affectedByGravity = true
-    physicsBody?.allowsRotation = false 
+    physicsBody?.allowsRotation = false
     physicsBody?.categoryBitMask = Category.Player
     physicsBody?.restitution = 0
     physicsBody?.mass = 0.05
     physicsBody?.contactTestBitMask = Category.TargetPlatform | Category.Platform
     physicsBody?.collisionBitMask = Category.TargetPlatform   | Category.Platform
     physicsBody?.usesPreciseCollisionDetection = true
-
+    
   }
+  
+  
   
   required convenience init?(coder aDecoder: NSCoder) {
     self.init()

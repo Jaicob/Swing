@@ -49,6 +49,8 @@ struct Layer {
   static let Background:  CGFloat = 0
   static let Rope:        CGFloat = 1
   static let Foreground:  CGFloat = 3
+  static let MainMenu:    CGFloat = 40
+  static let GameOver:    CGFloat = 40
 }
 
 struct Category {
