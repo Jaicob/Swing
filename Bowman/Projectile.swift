@@ -9,11 +9,14 @@
 import SpriteKit
 
 class Projectile: SKSpriteNode {
+  
+  
+  
+  override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
+    var color = SKColor.clearColor()
+    var size = CGSizeMake(10, 10)
 
-  override init() {
-    super.init()
-    color = SKColor.clearColor()
-    size = CGSizeMake(10, 10)
+    super.init(texture: nil, color: color, size: size)
     name = "projectile"
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
@@ -24,12 +27,8 @@ class Projectile: SKSpriteNode {
     physicsBody?.usesPreciseCollisionDetection = true
   }
   
-  override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-    super.init(texture: texture, color: color, size: size)
-  }
-
   required init?(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented")
   }
-
+  
 }

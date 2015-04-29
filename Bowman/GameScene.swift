@@ -69,8 +69,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   
   //MARK: - Touch handling
-  override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-    let touch = touches.anyObject() as UITouch
+  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    let touch = touches.first! as! UITouch
     let touchLocation = touch.locationInNode(self)
     
     if let mainMenu = self.childNodeWithName("mainMenu") {
@@ -88,8 +88,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     marker.runAction(marker.moveRight, withKey: "moveRight")
   }
   
-  override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-    let touch = touches.anyObject() as UITouch
+  override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    let touch = touches.first! as! UITouch
     let touchLocation = touch.locationInNode(self)
     
     //TODO: make another method
@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     shootProjectile(marker!.position)
   }
   
-  override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+  override func touchesCancelled(touches:Set<NSObject>, withEvent event: UIEvent) {
     println("touch cancelled")
   }
   
@@ -232,15 +232,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     if ((firstBody.categoryBitMask & Category.Ceiling != 0) &&
       (secondBody.categoryBitMask & Category.Projectile != 0)) {
-        projectileDidCollideWithCeiling(firstBody.node as SKSpriteNode, projectile: secondBody.node as SKSpriteNode)
+        projectileDidCollideWithCeiling(firstBody.node as! SKSpriteNode, projectile: secondBody.node as! SKSpriteNode)
     }
     
     if ((firstBody.categoryBitMask & Category.Player != 0) ||
       (secondBody.categoryBitMask & Category.TargetPlatform != 0)){
-        playerDidContactPlatform(secondBody.node as LedgeSprite)
+        playerDidContactPlatform(secondBody.node as! LedgeSprite)
     } else if ((secondBody.categoryBitMask & Category.Player != 0) ||
       (firstBody.categoryBitMask & Category.TargetPlatform != 0)) {
-        playerDidContactPlatform(firstBody.node as LedgeSprite)
+        playerDidContactPlatform(firstBody.node as! LedgeSprite)
     }
   }
   

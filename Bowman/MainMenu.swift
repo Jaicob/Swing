@@ -12,11 +12,11 @@ class MainMenu: SKSpriteNode {
   var startButton : SKSpriteNode!
 
   
-  override init() {
-    super.init()
+   init() {
+    var size = CGSizeMake(1028, 754)
+    var color = SKColor.clearColor()
+    super.init(texture: nil, color: color, size: size)
     name = "mainMenu"
-    size = CGSizeMake(1028, 754)
-    color = SKColor.clearColor()
     zPosition = Layer.MainMenu
     layoutSubNodes()
   }

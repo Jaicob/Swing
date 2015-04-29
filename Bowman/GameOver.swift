@@ -11,11 +11,11 @@ import SpriteKit
 class GameOver: SKSpriteNode {
   var restart : SKSpriteNode!
   
-  override init() {
-    super.init()
+  init() {
+    var size = CGSizeMake(1028, 754)
+    var color = SKColor.clearColor()
+    super.init(texture: nil, color: color, size: size)
     name = "gameOver"
-    size = CGSizeMake(1028, 754)
-    color = SKColor.clearColor()
     zPosition = Layer.MainMenu
     layoutSubNodes()
   }
@@ -50,5 +50,5 @@ class GameOver: SKSpriteNode {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
+  
 }

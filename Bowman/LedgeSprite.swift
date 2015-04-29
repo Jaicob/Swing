@@ -11,11 +11,11 @@ import SpriteKit
 class LedgeSprite: SKSpriteNode {
   let startPosition = CGPointMake(70,522)
   
-  override init() {
-    super.init()
+   init() {
+    var color = SKColor.brownColor()
+    var size = CGSizeMake(100, 15)
+    super.init(texture: nil, color: color, size: size)
     name = "ledge"
-    color = SKColor.brownColor()
-    size = CGSizeMake(100, 15)
     position = startPosition
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
     physicsBody?.affectedByGravity = false
@@ -29,18 +29,13 @@ class LedgeSprite: SKSpriteNode {
     physicsBody?.usesPreciseCollisionDetection = false
   }
   
-  override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-    super.init(texture: texture, color: color, size: size)
-  }
-  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(location : CGPoint, size: CGSize = CGSizeMake(100, 15)) {
-    super.init()
+  convenience init(location : CGPoint, size: CGSize = CGSizeMake(100, 15)) {
+    self.init()
     name = "ledge"
-    color = SKColor.brownColor()
     self.size = size
     position = location
     physicsBody = SKPhysicsBody(rectangleOfSize: size)
